@@ -1,10 +1,11 @@
 pipeline {
-	agent {
+	/*agent {
         docker {
             image 'maven:3-alpine' 
             args '-v /root/.m2:/root/.m2' 
         }
-    }
+    }*/
+	agent none 
     stages {
         stage('Build') {
             steps {
@@ -23,9 +24,8 @@ pipeline {
         }
 		stage("SonarQube analysis") {
             steps {
-			def scannerHome = tool 'SonarQube Scanner 2.8';
               withSonarQubeEnv('SonarQube') {
-                sh "${scannerHome}/bin/sonar-scanner"
+                sh 'mvn sonar:sonar'
               }
             }
         }
